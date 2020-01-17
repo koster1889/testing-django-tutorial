@@ -2,4 +2,12 @@
     <h2>Question</h2>
     <p>{{ question.question_text }}</p>
     <i>{{question.pub_date }}</i>
+    <h3>Available choices</h3>
+    <ul>
+        {% for choice in question.choice_set.all %}
+            <li>
+                {{ choice.choice_text }}
+            </li>
+        {% endfor %}
+    </ul>
 </div>
