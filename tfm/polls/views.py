@@ -4,34 +4,30 @@ from django.http import HttpResponseRedirect
 from django.template import loader
 from django.http import Http404
 from django.urls import reverse
+from django.views import generic
 
 from django.shortcuts import render
 from django.shortcuts import get_object_or_404
 
 from .models import Question
 
-def index(request):
-    questions = Question.objects.order_by('-pub_date')[:5]
-    template = loader.get_template('polls/index.html')
-    context = {
-        'questions': questions
-    }
+class IndexView(generic.ListView):
+    template_name = 'polls/index.html'
+    context_object_name = 'questions'
 
-    return HttpResponse(template.render(context, request))
+    def get_queryset(self):
+        return Question.objects.order_by('-pub_date')[:5]
 
 
+class DetailView(generic.DetailView):
+    model = Question
+    template_name = 'polls/details.html'
 
 
-def detail(request, question_id):
-    try:
-        question = Question.objects.get(pk=question_id)
-    except Question.DoesNotExist:
-        raise Http404("Question does not exist...")
-    return render(request, 'polls/details.html', {'question': question})
+class ResultsView(generic.DetailView):
+    model = Question
+    template_name = 'polls/results.html'
 
-def results(request, question_id):
-    question = get_object_or_404(Question, pk=question_id)
-    return render(request, 'polls/results.html', {'question': question})
 
 def vote(request, question_id):
     question = get_object_or_404(Question, pk=question_id)
