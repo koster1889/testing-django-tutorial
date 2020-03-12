@@ -1,7 +1,9 @@
 {% extends "./base.html" %}
 {% block layout %}
+<header class="bg-dark text-light p-3"><a href="{% url 'polls:index' %}">Poll-app!</a></header>
 <div class="container p-3 my-3 text-light bg-dark">
 {% block content %}
 {% endblock%}
 </div>
+<footer class="bg-dark text-light p-3">Footer!</footer>
 {% endblock %}
