@@ -1,0 +1,19 @@
+{% extends "./content.html" %}
+{% block content %}
+<div class="container p-3 my-3 text-light bg-dark">
+    <h2>Create Poll</h2>
+    <form action="{% url 'polls:create' %}" method="post">
+    {% csrf_token %}
+    <p>{{ question.question_text }}</p>
+    <label for="question-text">Question text: </label><input type="text" name="question-text">
+    <h3>Available choices</h3>
+        {% for index in poll_options_list %}
+        <div>
+            <label for="choice-{{index}}">Option nr {{index|add:"1"}}</label>
+            <input type="text" name="choice-{{index}}" id="choice{{forloop.couter}}" value="{{choice.id}}">
+        </div>
+        {% endfor %}
+        <button type="submit"> Vote! </button>
+    </form>
+</div>
+{% endblock%}
